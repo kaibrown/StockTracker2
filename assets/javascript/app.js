@@ -185,7 +185,7 @@ $(document).ready(function() {
 
 
 		$.ajax({
-		    url: 'http://apilayer.net/api/' + endpoint + '?access_key=' + access_key,
+		    url: 'https://apilayer.net/api/' + endpoint + '?access_key=' + access_key,
 		    dataType: 'jsonp',
 		    success: function(json) {
 			GBP = json.quotes.USDGBP;
