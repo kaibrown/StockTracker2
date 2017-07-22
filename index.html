@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>StockTracker</title>
+	<!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css"> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Rubik+Mono+One|Montserrat+Subrayada&effect=outline" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+	</head>
+
+	<body class="bgimg">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				  <div class="text-center">
+				    <h1 class="font-effect-outline">StockTracker</h1> 
+				  </div>
+		          <div class="panel panel-default">
+		            <div class="panel-heading">
+		              <h3 class="panel-title">My Stock Quotes</h3>
+		            </div>
+		          <div class="panel-body chartList">
+		          <table id="quote-table" class="table table-hover table-inverse chartList">
+				  <thead>
+				    <tr>
+				      <th>Stock Name</th>
+				      <th>Opening Value</th>
+				      <th>High</th>
+				      <th>Low</th>
+				      <th>Close</th>		      
+				    </tr>
+				  </thead>
+				  <tbody>
+				  </tbody>
+				</table>
+			</div>
+		</div><!-- End of row -->
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-info">
+		            <div class="panel-heading">
+		              <h3 class="panel-title">Add Quote</h3>
+		            </div>
+		         <div class="panel-body">
+				 <form id="stock-form">
+				  <div class="form-group">
+				    <label for="name" class="bigger">Stock Name</label>
+				    <input type="text" class="form-control" id="stockName" data-validation="required alphanumeric" placeholder=" **** " maxlength="4" required>
+				  </div>
+				    <button id="add-stock-btn" type="submit" class="btn btn-lg btn-info btn-inverse">Get Quote</button>
+				</form>
+				</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6">
+				<div class="panel panel-default panel-body">
+					<canvas id="myChart" width="100%" height="45%"></canvas>
+				</div>
+			</div>
+		
+		
+
+		
+			<div class="col-md-3">
+				<div class="panel panel-success">
+		            <div class="panel-heading">
+		              <h3 class="panel-title">Currency Conversion</h3>
+		            </div>
+		         <div class="panel-body">
+		         	<!-- <select id="selectedC">
+					  <option class="currency" value="GBP">British Pounds</option>
+					  <option class="currency" value="EUR">Euros</option>
+					  <option class="currency" value="CHF">Swiss Francs</option>
+					  <option class="currency" value="CAD">Canadian Dollars</option>
+					  <option class="currency" value="RUB">Russian Rubles</option>
+					</select> -->
+					
+  
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg modalButton" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+
+
+  
+
+					
+	
+				</div><!-- End of panel body -->
+			</div>
+		</div> <!-- End of conversion row -->
+		
+	</div><!-- End of container -->
+	<script src="app.js"></script>
+	</body>
+</html>
