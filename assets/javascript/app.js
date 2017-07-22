@@ -37,7 +37,7 @@ $(document).ready(function() {
 
 		    } else {
 			var symbol = $("input").val().trim();
-			var queryURL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + symbol + "&apikey=PMUK6NM28GYW799L&datatype=json";
+			var queryURL = "http://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + symbol + "&apikey=PMUK6NM28GYW799L&datatype=json";
 				// Performing an AJAX request with the queryURL
 				$.ajax({
 		          url: queryURL,
