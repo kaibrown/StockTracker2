@@ -9,7 +9,6 @@ messagingSenderId: "352972262657"
 firebase.initializeApp(config);
 
 var database = firebase.database();
-var database = firebase.database();
 var OpenPrice = 0;
 var HighPrice = 0;
 var LowPrice = 0;
