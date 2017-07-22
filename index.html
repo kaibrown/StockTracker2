@@ -5,8 +5,10 @@
 	<!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css"> -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Rubik+Mono+One|Montserrat+Subrayada&effect=outline" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 	</head>
@@ -72,29 +74,54 @@
 		              <h3 class="panel-title">Currency Conversion</h3>
 		            </div>
 		         <div class="panel-body">
-		         	<!-- <select id="selectedC">
+		         	<select id="selectedC">
 					  <option class="currency" value="GBP">British Pounds</option>
 					  <option class="currency" value="EUR">Euros</option>
 					  <option class="currency" value="CHF">Swiss Francs</option>
 					  <option class="currency" value="CAD">Canadian Dollars</option>
 					  <option class="currency" value="RUB">Russian Rubles</option>
-					</select> -->
+					</select>
 					
   
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg modalButton" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<button href="#myModal" id="openBtn" data-toggle="modal" class="btn btn-lg btn-primary">Convert</button>
 
-
-
-  
-
-					
-	
-				</div><!-- End of panel body -->
-			</div>
-		</div> <!-- End of conversion row -->
-		
-	</div><!-- End of container -->
-	<script src="app.js"></script>
+<div class="modal fade" id="myModal">
+<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 class="modal-title">Convert Currency</h3>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped" id="tblGrid">
+            <thead id="tblHead">
+              <tr>
+                <th>Opening Value</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td id="convertedOpening"></td>
+                <td id="convertedHigh">1.1</td>
+                <td id="convertedLow">1.2</td>
+                <td id="convertedClose"> 1.3 </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group">
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+        </div>
+                
+     </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+	<script src="assets/javascript/app.js"></script>
 	</body>
 </html>
