@@ -38,7 +38,6 @@ th,
 .panel-body,
 .bigger{
 	font-size: 1.25em;
-	opacity: 0.8;
 	text-align: center;
 }
 
@@ -65,7 +64,6 @@ td {
 .btn-success:hover, .btn-success:focus {
 	border: solid .10em #000;
 }
-
 
 @media only screen and (max-width: 600px) {
     /* For tablets: */

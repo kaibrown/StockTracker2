@@ -9,9 +9,22 @@ messagingSenderId: "352972262657"
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var OpenPrice = 0;
+var HighPrice = 0;
+var LowPrice = 0;
+var ClosePrice = 0;
+var GBP = 0;
+var EUR = 0;
+var CHF = 0;
+var CAD = 0;
+var RUB = 0;
+var OpenOutPut = 0;
+var HighOutPut = 0;
+var LowOutPut = 0;;
+var CloseOutPut = 0;
 
 $(document).ready(function() {
-
+	CurrencyConverter();
 	// Onclick function which makes the AJAX call to the Stock API
 	$("#add-stock-btn").on("click", function(event) {
 			event.preventDefault();
@@ -79,36 +92,41 @@ $(document).ready(function() {
 		    var newLowPrice = childSnapshot.val().low;
 		    var newClosePrice = childSnapshot.val().close;
 
-		    var chartBtn = `<button class='chart-btn btn btn-lg btn-success'>  ${newStockName} </button>`
-		    var removeBtn = `<button class='remove'>X</button>`
+		    var $chartBtn;
+
+		    OpenPrice = newOpenPrice;
+			HighPrice = newHighPrice;
+			LowPrice = newLowPrice;
+			ClosePrice = newClosePrice;
+
+			if (newClosePrice < newOpenPrice){
+				$chartBtn = "<button class='chart-btn btn btn-lg btn-danger'>  "+newStockName+ "</button>";
+			} else {
+				$chartBtn = "<button class='chart-btn btn btn-lg btn-success'>  "+newStockName+ "</button>";
+			}
+
+		    var removeBtn = "<button class='remove'>X</button>";
 		    
 		    // Html updated
 		    // Appends variable data to document's html
-		    var line = `<tr> <td>${chartBtn}</td> <td class='open'>${newOpenPrice}</td> <td class="high">${newHighPrice}</td> 
+		    var line = $("<tr> <td>"+$chartBtn+ "</td> <td class='open'>"+newOpenPrice+ "</td> <td class='high'>"+newHighPrice+ "</td>" +
+						"<td class='low'>"+newLowPrice+ "</td> <td class='close-value'>"+newClosePrice+"</td> <td>"+removeBtn+"</td>" +
+		    			"</tr>");
 
-						<td class='low'>${newLowPrice}</td> <td class="close-value">${newClosePrice}</td> <td>${removeBtn}</td>
-		    </tr>`;
-
-		    if (newClosePrice < newOpenPrice){
-			    chartBtn.removeClass("chart-btn btn btn-lg btn-success");    
-	            chartBtn.addClass("chart-btn btn btn-lg btn-danger");
-	            chartBtn.text(newStockName);
-            };
 		    
 		    $("#quote-table > tbody").append(line);
 
-		    
-		
+            
 			}, function(errorObject) {
 				console.log("Errors handled: " + errorObject.code);
 		});
 
-			$(document).on('click','.remove',function(event){
+		$(document).on('click','.remove',function(event){
 
-				event.preventDefault();
-				console.log('removed');
-				$(this).closest('tr').hide();
-			});
+			event.preventDefault();
+			console.log('removed');
+			$(this).closest('tr').hide();
+		});
 
 		$(".removeBtn").on("click", function(){
 			select.removeChild(select.options[select.selectedIndex]);
@@ -123,9 +141,13 @@ $(document).ready(function() {
 			var $row = $(this).parent();  
 			var $row = $(this).closest("tr");   
 			var openingValue = $row.find("td:nth-child(2)").text();
+			console.log(openingValue);
 			var highValue = $row.find("td:nth-child(3)").text();
+			console.log(highValue);
 			var lowValue = $row.find("td:nth-child(4)").text();
+			console.log(lowValue);
 			var closeValue = $row.find("td:nth-child(5)").text();
+			console.log(closeValue);
 
 			// Chart section
 			var ctx = $("#myChart");
@@ -148,17 +170,8 @@ $(document).ready(function() {
 			});
 
 		});
+});
 		
-
-		
-
-  
-	var GBP = 0;
-	var EUR = 0;
-	var CHF = 0;
-	var CAD = 0;
-	var RUB = 0;
-
 	function CurrencyConverter() {
 
 		var endpoint = 'live';
@@ -190,33 +203,46 @@ $(document).ready(function() {
 		});
 	};
 
-	
+	function calculation() {
 
-	function calculation () {
-
-	//database.ref("/quotes").on("child_added", function(childSnapshot) {
-
-	//var stockPrice = parseInt(childSnapshot.val().close);
 
 	var dropDown = $("#selectedC option:selected").val();
 
 		if (dropDown == "RUB") {
-			outPut = RUB * stockPrice;
-			console.log(outPut);
+			OpenOutPut = RUB * OpenPrice;
+			HighOutPut = RUB * HighPrice;
+			LowOutPut = RUB * LowPrice;
+			CloseOutPut = RUB * ClosePrice;
 		} else if (dropDown == "CAD") {
-			outPut = CAD * stockPrice;
-			console.log(outPut);
+			OpenOutPut = CAD * OpenPrice;
+			HighOutPut = CAD * HighPrice;
+			LowOutPut = CAD * LowPrice;
+			CloseOutPut = CAD * ClosePrice;
 		} else if (dropDown == "CHF") {
-			outPut = CHF * stockPrice;
-			console.log(outPut);
+			OpenOutPut = CHF * OpenPrice;
+			HighOutPut = CHF * HighPrice;
+			LowOutPut = CHF * LowPrice;
+			CloseOutPut = CHF * ClosePrice;
 		} else if (dropDown == "EUR") {
-			outPut = EUR * stockPrice;
-			console.log(outPut);
+			OpenOutPut = EUR * OpenPrice;
+			HighOutPut = EUR * HighPrice;
+			LowOutPut = EUR * LowPrice;
+			CloseOutPut = EUR * ClosePrice;;
 		} else if (dropDown == "GBP") {
-			outPut = GBP * stockPrice;
-			console.log(outPut);
+			OpenOutPut = GBP * OpenPrice;
+			HighOutPut = GBP * HighPrice;
+			LowOutPut = GBP * LowPrice;
+			CloseOutPut = GBP * ClosePrice;
 		}
+
 	};
 
+$("#openBtn").on("click", function(){
+	calculation();
+	$("#convertedOpening").html(OpenOutPut.toFixed(3));
+	$("#convertedHigh").html(HighOutPut.toFixed(3));
+	$("#convertedLow").html(LowOutPut.toFixed(3));
+	$("#convertedClose").html(CloseOutPut.toFixed(3));
 });
+
 
