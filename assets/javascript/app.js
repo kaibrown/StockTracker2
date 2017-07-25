@@ -31,10 +31,8 @@ $(document).ready(function() {
 			//var quote = $(this).attr("data-name");
 			// Alpha Vantage working
 			if ($("input").val() === "") {
-
 		    	console.log("Invalid input!");
 		    	return false
-
 		    } else {
 			var symbol = $("input").val().trim();
 			var queryURL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + symbol + "&apikey=PMUK6NM28GYW799L&datatype=json";
@@ -91,6 +89,8 @@ $(document).ready(function() {
 		    var newHighPrice = childSnapshot.val().high;
 		    var newLowPrice = childSnapshot.val().low;
 		    var newClosePrice = childSnapshot.val().close;
+		    var key = childSnapshot.getKey();
+		    console.log(key);
 
 		    var $chartBtn;
 
@@ -99,18 +99,20 @@ $(document).ready(function() {
 			LowPrice = newLowPrice;
 			ClosePrice = newClosePrice;
 
+			// childsnapshot.getKey();
+
 			if (newClosePrice < newOpenPrice){
-				$chartBtn = "<button class='chart-btn btn btn-lg btn-danger'>  "+newStockName+ "</button>";
+				$chartBtn = "<button class='chart-btn btn btn-lg btn-danger'>"+newStockName+"</button>";
 			} else {
-				$chartBtn = "<button class='chart-btn btn btn-lg btn-success'>  "+newStockName+ "</button>";
+				$chartBtn = "<button class='chart-btn btn btn-lg btn-success'>"+newStockName+"</button>";
 			}
 
-		    var removeBtn = "<button class='remove'>X</button>";
+		    var removeBtn = "<button class='remove' data= "+ key +">X</button>";
 		    
 		    // Html updated
 		    // Appends variable data to document's html
-		    var line = $("<tr> <td>"+$chartBtn+ "</td> <td class='open'>"+newOpenPrice+ "</td> <td class='high'>"+newHighPrice+ "</td>" +
-						"<td class='low'>"+newLowPrice+ "</td> <td class='close-value'>"+newClosePrice+"</td> <td>"+removeBtn+"</td>" +
+		    var line = $("<tr> <td>"+$chartBtn+"</td> <td class='open'>"+newOpenPrice+"</td> <td class='high'>"+newHighPrice+"</td>" +
+						"<td class='low'>"+newLowPrice+"</td> <td class='close-value'>"+newClosePrice+"</td><td>"+removeBtn+"</td>" +
 		    			"</tr>");
 
 		    
@@ -122,15 +124,17 @@ $(document).ready(function() {
 		});
 
 		$(document).on('click','.remove',function(event){
-
 			event.preventDefault();
 			console.log('removed');
 			$(this).closest('tr').hide();
-		});
 
-		$(".removeBtn").on("click", function(){
-			select.removeChild(select.options[select.selectedIndex]);
-		})
+			var key = $(this).attr("data");
+			var query = database.ref("/quotes");
+			
+
+			query.child(key).remove();
+				
+		});
 
 		$(document).on("click",".chart-btn",function(event){
 
@@ -170,79 +174,78 @@ $(document).ready(function() {
 			});
 
 		});
-});
-		
-	function CurrencyConverter() {
 
-		var endpoint = 'live';
-		var access_key = '34f7aa0bec1b3e840bfec1a470ef081f';
-		var base = 'USD';
-		var currencySelect = $(".currency").val().trim();
-		var quoterate = base + currencySelect;
-	//	This is a placeholder for the amount that we are converting;
+		function CurrencyConverter() {
 
-		console.log(quoterate);
+			var endpoint = 'live';
+			var access_key = '34f7aa0bec1b3e840bfec1a470ef081f';
+			var base = 'USD';
+			var currencySelect = $(".currency").val().trim();
+			var quoterate = base + currencySelect;
+			//	This is a placeholder for the amount that we are converting;
 
+				console.log(quoterate);
 
 		$.ajax({
-		    url: 'http://apilayer.net/api/' + endpoint + '?access_key=' + access_key,
-		    dataType: 'jsonp',
-		    success: function(json) {
-			GBP = json.quotes.USDGBP;
-			EUR = json.quotes.USDEUR;
-			CHF = json.quotes.USDCHF;
-			CAD = json.quotes.USDCAD;
-			RUB = json.quotes.USDRUB;
-		    console.log(json);
-		    console.log(GBP);  
-		    console.log(EUR);  
-		    console.log(CHF);  
-		    console.log(RUB);  
-		    console.log(CAD);                         
-		    }
-		});
-	};
+			    url: 'http://apilayer.net/api/' + endpoint + '?access_key=' + access_key,
+			    dataType: 'jsonp',
+			    success: function(json) {
+				GBP = json.quotes.USDGBP;
+				EUR = json.quotes.USDEUR;
+				CHF = json.quotes.USDCHF;
+				CAD = json.quotes.USDCAD;
+				RUB = json.quotes.USDRUB;
+			    console.log(json);
+			    console.log(GBP);  
+			    console.log(EUR);  
+			    console.log(CHF);  
+			    console.log(RUB);  
+			    console.log(CAD);                         
+			    }
+			});
+		};
 
-	function calculation() {
+		function calculation() {
 
 
-	var dropDown = $("#selectedC option:selected").val();
+		var dropDown = $("#selectedC option:selected").val();
 
-		if (dropDown == "RUB") {
-			OpenOutPut = RUB * OpenPrice;
-			HighOutPut = RUB * HighPrice;
-			LowOutPut = RUB * LowPrice;
-			CloseOutPut = RUB * ClosePrice;
-		} else if (dropDown == "CAD") {
-			OpenOutPut = CAD * OpenPrice;
-			HighOutPut = CAD * HighPrice;
-			LowOutPut = CAD * LowPrice;
-			CloseOutPut = CAD * ClosePrice;
-		} else if (dropDown == "CHF") {
-			OpenOutPut = CHF * OpenPrice;
-			HighOutPut = CHF * HighPrice;
-			LowOutPut = CHF * LowPrice;
-			CloseOutPut = CHF * ClosePrice;
-		} else if (dropDown == "EUR") {
-			OpenOutPut = EUR * OpenPrice;
-			HighOutPut = EUR * HighPrice;
-			LowOutPut = EUR * LowPrice;
-			CloseOutPut = EUR * ClosePrice;;
-		} else if (dropDown == "GBP") {
-			OpenOutPut = GBP * OpenPrice;
-			HighOutPut = GBP * HighPrice;
-			LowOutPut = GBP * LowPrice;
-			CloseOutPut = GBP * ClosePrice;
-		}
+			if (dropDown === "RUB") {
+				OpenOutPut = RUB * OpenPrice;
+				HighOutPut = RUB * HighPrice;
+				LowOutPut = RUB * LowPrice;
+				CloseOutPut = RUB * ClosePrice;
+			} else if (dropDown === "CAD") {
+				OpenOutPut = CAD * OpenPrice;
+				HighOutPut = CAD * HighPrice;
+				LowOutPut = CAD * LowPrice;
+				CloseOutPut = CAD * ClosePrice;
+			} else if (dropDown === "CHF") {
+				OpenOutPut = CHF * OpenPrice;
+				HighOutPut = CHF * HighPrice;
+				LowOutPut = CHF * LowPrice;
+				CloseOutPut = CHF * ClosePrice;
+			} else if (dropDown === "EUR") {
+				OpenOutPut = EUR * OpenPrice;
+				HighOutPut = EUR * HighPrice;
+				LowOutPut = EUR * LowPrice;
+				CloseOutPut = EUR * ClosePrice;;
+			} else if (dropDown === "GBP") {
+				OpenOutPut = GBP * OpenPrice;
+				HighOutPut = GBP * HighPrice;
+				LowOutPut = GBP * LowPrice;
+				CloseOutPut = GBP * ClosePrice;
+			}
 
-	};
+		};
 
-$("#openBtn").on("click", function(){
-	calculation();
-	$("#convertedOpening").html(OpenOutPut.toFixed(3));
-	$("#convertedHigh").html(HighOutPut.toFixed(3));
-	$("#convertedLow").html(LowOutPut.toFixed(3));
-	$("#convertedClose").html(CloseOutPut.toFixed(3));
+		$("#openBtn").on("click", function(){
+			calculation();
+			$("#convertedOpening").html(OpenOutPut.toFixed(3));
+			$("#convertedHigh").html(HighOutPut.toFixed(3));
+			$("#convertedLow").html(LowOutPut.toFixed(3));
+			$("#convertedClose").html(CloseOutPut.toFixed(3));
+	});
 });
 
 
